@@ -16,7 +16,8 @@ class Form {
         return this.message;
     }
 
-    async update() {
+    async update(data = {}) {
+        this.data = {...this.data, ...data};
         let msgData = await this.render(this.data);
         if (typeof msgData === 'object') {
             msgData = {embed: msgData};
