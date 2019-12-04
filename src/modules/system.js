@@ -73,4 +73,39 @@ systemModule.addCommand(new Command({
     },
 }));
 
+systemModule.addCommand(new Command({
+    name: 'counter',
+    meta: {},
+    forms: {
+        answer({number}) {
+            return {
+                color: 0x3498DB,
+                title: `:link: Итого:`,
+                description: number,
+            }
+        },
+    },
+    async handler() {
+        const form = await this.answer({number: 0});
+        const collector = new ReactionControl({
+            message: form.message,
+            timeout: 30000,
+            reactions: [
+                ['◀', ()=>{
+                    form.update({number: --form.data.number})
+                }],
+                ['▶', ()=>{
+                    form.update({number: ++form.data.number})
+                }],
+                ['2️⃣', ()=>{
+                    form.update({number: form.data.number * 2})
+                }],
+            ],
+            autodelete: true,
+        });
+        await collector.start();
+        console.log('ДОЖДАЛСЯ');
+    },
+}));
+
 module.exports = systemModule;
