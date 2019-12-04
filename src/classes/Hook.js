@@ -50,13 +50,13 @@ class Hook {
         return {
             hooksMap: {},
 
-            add(target, type, handler, parent = null) {
-                if (!this.hooksMap[target]) {
-                    this.hooksMap[target] = []
+            add(parent, type, handler) {
+                if (!this.hooksMap[parent]) {
+                    this.hooksMap[parent] = []
                 }
                 const hook = new Hook(type, handler, parent);
-                target.hookProcessor.activateHook(hook);
-                this.hooksMap[target].push(hook);
+                hook.activate();
+                this.hooksMap[parent].push(hook);
                 return hook;
             },
 
