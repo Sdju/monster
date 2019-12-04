@@ -1,5 +1,6 @@
 const Module = require('../classes/Module');
 const Command = require('../classes/Command');
+const ReactionControl = require('../classes/ReactionControl');
 const Form = require('../classes/Form');
 
 const systemModule = new Module();
