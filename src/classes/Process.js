@@ -14,8 +14,11 @@ class Process {
         this.hookContainer.clear();
     }
 
-    run() {
-        this.command.handler.call(this, this.message);
+    async answer(props, render = this.command.forms.answer) {
+        const form = new Form(render);
+        form.data = props;
+        await form.create(this.message.channel);
+        return form;
     }
 }
 

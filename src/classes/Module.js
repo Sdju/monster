@@ -8,7 +8,6 @@ class Module {
 
         this.commandList = [];
         this.commandMap = {};
-        this.hooksForProcessor = [];
         this.activated = false;
 
         this.hookProcessor.activateHook(new Hook('activated', (processor)=> {
@@ -34,6 +33,7 @@ class Module {
                 throw new Error(`Commands name collision: ${command.name} (${variant})`);
             this.commandMap[variant] = command;
         }
+        command.module = this;
     }
 }
 

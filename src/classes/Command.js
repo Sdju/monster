@@ -12,6 +12,10 @@ class Command {
         this.aliases = params.aliases || [];
         this.meta = params.meta;
         this.filters = params.filters || [];
+        if (params.forms) {
+            this.forms = params.forms;
+        }
+        this.module = null;
     }
 
     async filtering(message) {
@@ -26,7 +30,8 @@ class Command {
     async exec(message) {
         if (await this.filtering(message)) {
             const process = new Process(message, this);
-            process.run();
+            process.module = this.module;
+            await process.run();
         }
     }
 }
