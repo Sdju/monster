@@ -45,6 +45,30 @@ class Hook {
             }
         };
     }
+
+    static createHookContainer() {
+        return {
+            hooksMap: {},
+
+            add(target, type, handler, parent = null) {
+                if (!this.hooksMap[target]) {
+                    this.hooksMap[target] = []
+                }
+                const hook = new Hook(type, handler, parent);
+                target.hookProcessor.activateHook(hook);
+                this.hooksMap[target].push(hook);
+                return hook;
+            },
+
+            clear() {
+                for (const target in this.hooksMap) {
+                    for (const hook of this.hooksMap[target]) {
+                        hook.deactivate()
+                    }
+                }
+            },
+        }
+    }
 }
 
 
