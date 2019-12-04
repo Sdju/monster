@@ -60,6 +60,18 @@ class Hook {
                 return hook;
             },
 
+            waitHook(parent, type, handler) {
+                return new Promise((res, rej)=> {
+                    this.add(parent, type, async function (...params) {
+                        let result = await handler.apply(this, params);
+                        if (result) {
+                            this.deactivate();
+                            res();
+                        }
+                    })
+                })
+            },
+
             clear() {
                 for (const target in this.hooksMap) {
                     for (const hook of this.hooksMap[target]) {

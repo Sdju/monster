@@ -9,8 +9,10 @@ class Module {
         this.commandList = [];
         this.commandMap = {};
         this.activated = false;
+        this.processor = null;
 
         this.hookProcessor.activateHook(new Hook('activated', (processor)=> {
+            this.processor = processor;
             processor.hookProcessor.activateHook(new Hook('message', (message)=> {
                 this.hookProcessor.emit('message', message).then(()=> {
                     if (message.content.startsWith(prefix)) {
