@@ -4,7 +4,7 @@ const Hook = require('./Hook');
 
 class Processor {
     constructor() {
-        Hook.injectHookProcessor(this);
+        this.hookProcessor = Hook.createHookProcessor();
         this.client = new Discord.Client();
         this.modules = []
     }

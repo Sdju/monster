@@ -4,7 +4,7 @@ const prefix = '-';
 
 class Module {
     constructor() {
-        Hook.injectHookProcessor(this);
+        this.hookProcessor = Hook.createHookProcessor();
 
         this.commandList = [];
         this.commandMap = {};

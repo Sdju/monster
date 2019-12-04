@@ -13,8 +13,8 @@ class Hook {
         this.parent.hookProcessor.activateHook(this)
     }
 
-    static injectHookProcessor(object) {
-        const hookProcessor = {
+    static createHookProcessor() {
+        return {
             hookSet: new Set(),
             hooksMap: {},
             activateHook(hook) {
@@ -44,7 +44,6 @@ class Hook {
                 }
             }
         };
-        object.hookProcessor = hookProcessor;
     }
 }
 
