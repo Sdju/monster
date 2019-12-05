@@ -24,6 +24,10 @@ class Form {
         }
         await this.message.edit(msgData);
     }
+
+    delete() {
+        return this.message.delete();
+    }
 }
 
 module.exports = Form;
