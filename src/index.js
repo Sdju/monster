@@ -1,6 +1,6 @@
 require('./configs');
 const systemModule = require('./modules/system');
-const randomGamesModule = require('./modules/randommGames');
+const randomGamesModule = require('./modules/randomGames');
 const gifsModule = require('./modules/gifs');
 const otherModule = require('./modules/other');
 
