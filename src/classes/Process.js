@@ -134,6 +134,10 @@ class Process {
         await form.create(this.message.channel);
         return form;
     }
+
+    async error(props, render = this.command.forms.error || this.module.errorRender) {
+        return this.answer(props, render);
+    }
 }
 
 module.exports = Process;
