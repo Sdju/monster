@@ -15,6 +15,7 @@ class Command {
         if (params.forms) {
             this.forms = params.forms;
         }
+        this.flags = params.flags || {};
         this.module = null;
     }
 
