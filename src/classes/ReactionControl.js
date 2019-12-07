@@ -28,11 +28,11 @@ class ReactionControl {
         for (let reaction of this.reactionsList) {
             await this.message.react(reaction);
         }
-        // КОСТЫЛЬ ПРИДУМАТЬ РЕШЕНИЕ
-        await new Promise(res=> setTimeout(res, 300));
 
         this.collector = this.message.createReactionCollector(this.filter.bind(this), {time: this.timeout});
         this.collector.on('collect', reaction=> {
+            if (reaction.user.id === this.message.client.user.id) return;
+
             this.reactions.get(reaction.emoji.name)(reaction);
             if (this.autodelete) {
                 reaction.remove(reaction.user);
