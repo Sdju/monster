@@ -17,6 +17,7 @@ class Command {
         }
         this.flags = params.flags || {};
         this.module = null;
+        this.processClass = params.processClass || Process;
     }
 
     async filtering(message) {
@@ -30,7 +31,7 @@ class Command {
 
     async exec(message) {
         if (await this.filtering(message)) {
-            const process = new Process(message, this);
+            const process = new this.processClass(message, this);
             process.module = this.module;
             await process.run();
         }

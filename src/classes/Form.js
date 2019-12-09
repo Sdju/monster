@@ -10,7 +10,15 @@ class Form {
     async create(channel) {
         let msgData = await this.render(this.data);
         if (typeof msgData === 'object') {
+            let file = null;
+            if (msgData.file) {
+                file = msgData.file;
+                delete msgData.file;
+            }
             msgData = {embed: msgData};
+            if (file) {
+                msgData.file = file;
+            }
         }
         this.message = await channel.send(msgData);
         return this.message;

@@ -6,7 +6,7 @@ class Processor {
     constructor() {
         this.hookProcessor = Hook.createHookProcessor();
         this.client = new Discord.Client();
-        this.modules = []
+        this.modules = [];
     }
 
     async activate() {

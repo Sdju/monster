@@ -24,7 +24,9 @@ class Process {
     }
 
     async run() {
-        this.flags = this.getFlags();
+        if (!this.flags) {
+            this.flags = this.getFlags();
+        }
         await this.command.handler.call(this, this.message);
         this.hookContainer.clear();
     }
@@ -41,7 +43,9 @@ class Process {
 
             if (req.type === 'channel') {
                 const val =  (new RegExp(`${key}=\\<\\#(\\d+)\\>`)).exec(this.message.content);
-                res[key] = this.message.guild.channels.get(val[1]);
+                if (val) {
+                    res[key] = this.message.guild.channels.get(val[1]);
+                }
             } else if (req.type === 'flag') {
                 let val = ((new RegExp(`\\s${key}(\\s+|$)`)).exec(this.message.content));
                 if (val)

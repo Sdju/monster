@@ -25,9 +25,6 @@ systemModule.addCommand(new Command({
     },
     async handler() {
             const form = await this.answer({ping: this.module.processor.client.ping});
-            setTimeout(()=> {
-                form.update({ping: 5000});
-            }, 3000)
     },
 }));
 
@@ -282,7 +279,8 @@ systemModule.addCommand(new Command({
                         value: client.users.size,
                         inline: true,
                     }
-                ]
+                ],
+                description: `[github](https://github.com/Sdju/monster)`
             }
         },
     },
