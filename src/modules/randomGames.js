@@ -67,7 +67,7 @@ randomGamesModule.addCommand(new Command({
             if (dickSize > 1 )
                 msg += `${dickWidth}8${Array(Math.round(dickSize)).fill('=').join('')}>${dickWidth}\n(${dickSize}sm)`;
             else
-                msg += `:${(dickWidth === 0)? 'wilted_' : ''}rose:\n(${dickSize}sm)`;
+                msg += `:${(dickWidth === 0)? 'wilted_' : ''}rose:\n(${dickSize} см)`;
             return {
                 color: 3447003,
                 description: msg
