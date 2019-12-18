@@ -23,9 +23,9 @@ function getDickSize(id) {
 function dickToString(dickSize, user) {
     let dickWidth = Array(user.id.slice(2) % 3).fill('*').join('');
     if (dickSize > 1 )
-        return `${dickWidth}8${Array(Math.round(dickSize)).fill('=').join('')}>${dickWidth}\n(${dickSize}sm)`;
+        return `${dickWidth}8${Array(Math.round(dickSize)).fill('=').join('')}>${dickWidth}\n(${dickSize} см)`;
     else
-        return `:${(dickWidth === 0)? 'wilted_' : ''}rose:\n(${dickSize}sm)`;
+        return `:${(dickWidth === 0)? 'wilted_' : ''}rose:\n(${dickSize} см)`;
 }
 
 function createForm({message, val, title}) {
@@ -65,7 +65,7 @@ randomGamesModule.addCommand(new Command({
             const dickSize = getDickSize(user.id);
             let dickWidth = Array(user.id.slice(2) % 3).fill('*').join('');
             if (dickSize > 1 )
-                msg += `${dickWidth}8${Array(Math.round(dickSize)).fill('=').join('')}>${dickWidth}\n(${dickSize}sm)`;
+                msg += `${dickWidth}8${Array(Math.round(dickSize)).fill('=').join('')}>${dickWidth}\n(${dickSize} см)`;
             else
                 msg += `:${(dickWidth === 0)? 'wilted_' : ''}rose:\n(${dickSize} см)`;
             return {
