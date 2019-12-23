@@ -30,10 +30,15 @@ class Command {
     }
 
     async exec(message) {
-        if (await this.filtering(message)) {
-            const process = new this.processClass(message, this);
-            process.module = this.module;
-            await process.run();
+        let process;
+        try {
+            if (await this.filtering(message)) {
+                process = new this.processClass(message, this);
+                process.module = this.module;
+                await process.run();
+            }
+        } catch(exception) {
+            process.error({title: 'некорректные параметры', description: 'Необходимо изображение для обработки!', exception})
         }
     }
 }
