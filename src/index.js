@@ -3,6 +3,7 @@ const systemModule = require('./modules/system');
 const randomGamesModule = require('./modules/randomGames');
 const gifsModule = require('./modules/gifs');
 const otherModule = require('./modules/other');
+const imagesModule = require('./modules/images');
 
 const Processor = require('./classes/Processor');
 const Hook = require('./classes/Hook');
@@ -12,6 +13,7 @@ bot.addModule(systemModule);
 bot.addModule(randomGamesModule);
 bot.addModule(gifsModule);
 bot.addModule(otherModule);
+bot.addModule(imagesModule);
 
 bot.hookProcessor.activateHook(new Hook('message', message => {
     if (message.content.toLowerCase() === 'w') {
