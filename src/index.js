@@ -12,11 +12,6 @@ const Hook = require('./classes/Hook');
 const { NoOrm } = require('@zede/no-orm');
 
 const bot = new Processor();
-bot.addModule(systemModule);
-bot.addModule(randomGamesModule);
-bot.addModule(gifsModule);
-bot.addModule(otherModule);
-bot.addModule(imagesModule);
 bot.addModule(userModule);
 
 bot.hookProcessor.activateHook(new Hook('message', message => {
