@@ -11,22 +11,27 @@ class Module {
         this.activated = false;
         this.processor = null;
         this.name = name;
+        this.prefix = process.env.DEF_PREFIX;
 
-        this.hookProcessor.activateHook(new Hook('activated', (processor)=> {
-            this.processor = processor;
-            processor.hookProcessor.activateHook(new Hook('message', (message)=> {
-                this.hookProcessor.emit('message', message).then(()=> {
-                    if (message.content.startsWith(prefix)) {
+        this.hookProcessor.activateHook(new Hook('activated', this.activatedHook.bind(this), this));
+    }
 
-                        const curCmdName = message.content.slice(prefix.length).split(' ')[0].toLowerCase();
-                        if (curCmdName in this.commandMap) {
-                            message.text = message.content.slice(prefix.length + curCmdName.length).trim();
-                            return this.commandMap[curCmdName].exec(message);
-                        }
-                    }
-                })
-            }, processor))
-        }, this));
+    activatedHook(processor) {
+        this.processor = processor;
+        processor.hookProcessor.activateHook(new Hook('message', this.messageHook.bind(this), processor))
+    }
+
+    messageHook(message) {
+        this.hookProcessor.emit('message', message).then(()=> {
+            if (message.content.startsWith(this.prefix)) {
+
+                const curCmdName = message.content.slice(this.prefix.length).split(' ')[0].toLowerCase();
+                if (curCmdName in this.commandMap) {
+                    message.text = message.content.slice(this.prefix.length + curCmdName.length).trim();
+                    return this.commandMap[curCmdName].exec(message);
+                }
+            }
+        })
     }
 
     addCommand(command) {
