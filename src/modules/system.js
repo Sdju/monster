@@ -1,4 +1,4 @@
-const Module = require('../classes/Module');
+const Module = require('../helpers/DbModule');
 const Command = require('../classes/Command');
 const ReactionControl = require('../classes/ReactionControl');
 const Form = require('../classes/Form');
@@ -71,6 +71,23 @@ systemModule.addCommand(new Command({
             }
         });
         console.log('ДОЖДАЛСЯ');
+    },
+}));
+
+systemModule.addCommand(new Command({
+    name: 'server',
+    meta: {},
+    forms: {
+        answer({id, prefix}) {
+            return {
+                color: 0x3498DB,
+                title: `:link: Ждун`,
+                description: id + ':' + prefix,
+            }
+        },
+    },
+    async handler() {
+        await this.answer({id: this.message.serverModel.serverId, prefix: this.message.serverModel.prefix});
     },
 }));
 
