@@ -15,7 +15,7 @@ class Form {
                 file = msgData.file;
                 delete msgData.file;
             }
-            msgData = {embed: msgData};
+            msgData = {embed: msgData, content: msgData.content};
             if (file) {
                 msgData.file = file;
             }

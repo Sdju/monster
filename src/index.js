@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 require('./configs');
 const systemModule = require('./modules/system');
 const randomGamesModule = require('./modules/randomGames');
@@ -40,7 +41,7 @@ bot.activate().then(async ()=> {
     await NoOrm.connect(dbConfigs);
 
     for (const guild of bot.client.guilds.values()) {
-        console.log(guild.name);
+        console.log(chalk.greenBright(guild.name) + chalk.yellowBright(' (' + guild.memberCount + ')'));
     }
     console.log('Activated');
 });

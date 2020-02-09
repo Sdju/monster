@@ -21,6 +21,7 @@ class Process {
         this.command = command;
         this.module = null;
         this.hookContainer = Hook.createHookContainer();
+        this.forceMention = null;
     }
 
     async run() {
@@ -74,6 +75,9 @@ class Process {
     }
 
     async getMember() {
+        if (this.message.forceMention) {
+            return this.message.forceMention
+        }
         const mention = this.message.mentions.members.first();
         if (mention) {
             return mention;

@@ -18,7 +18,17 @@ class Module {
 
     activatedHook(processor) {
         this.processor = processor;
-        processor.hookProcessor.activateHook(new Hook('message', this.messageHook.bind(this), processor))
+        processor.hookProcessor.activateHook(new Hook('message', this.messageHook.bind(this), processor));
+        processor.hookProcessor.activateHook(new Hook('reactionAdd', this.reactionAddHook.bind(this), processor));
+        processor.hookProcessor.activateHook(new Hook('synthCall', this.synthCall.bind(this), processor));
+    }
+
+    synthCall(cmd, message, prep = ()=>{}) {
+        if (cmd in this.commandMap) {
+            message.text = message.content.trim();
+            const prepMsg = prep(Object.create(message));
+            return this.commandMap[cmd].exec(prepMsg);
+        }
     }
 
     messageHook(message) {
@@ -32,6 +42,10 @@ class Module {
                 }
             }
         })
+    }
+
+    reactionAddHook(msgReact, user) {
+        this.hookProcessor.emit('reactionAdd', msgReact, user);
     }
 
     addCommand(command) {

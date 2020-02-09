@@ -38,7 +38,7 @@ class Command {
                 await process.run();
             }
         } catch(exception) {
-            process.error({title: 'некорректные параметры', description: 'Необходимо изображение для обработки!', exception})
+            process.error({title: 'некорректные параметры', description: 'Ошибка времени исполнения!', exception})
         }
     }
 }
