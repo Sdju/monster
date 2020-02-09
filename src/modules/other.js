@@ -1,5 +1,8 @@
 const Module = require('../classes/Module');
 const Command = require('../classes/Command');
+const Hook = require('../classes/Hook');
+const Process = require('../classes/Process');
+
 let request = require('request');
 
 const otherModule = new Module('other');
@@ -10,6 +13,46 @@ function genFooter(message) {
         icon_url: message.author.avatarURL
     };
 }
+
+const replyRender = ({msg, author})=> {
+    if (msg.embed) {
+        return {
+            ...msg.embed
+        };
+    } else {
+        return {
+            description: msg.content,
+            author: {
+                icon_url: msg.author.avatarURL,
+                url: msg.url,
+                name: 'от: ' + msg.author.tag
+            },
+            footer: {
+                text: author.username,
+                icon_url: author.avatarURL
+            },
+        }
+    }
+};
+
+otherModule.hookProcessor.activateHook(new Hook('reactionAdd', function(msgReact, user) {
+    const emoji = msgReact.emoji;
+    if (emoji.name === '©️') {
+        const msg = msgReact.message;
+        const process = new Process(msg);
+        msgReact.remove(user);
+        process.answer({msg, author: user}, replyRender);
+    } else if (emoji.name === '😠') {
+        const msg = msgReact.message;
+        const process = new Process(msg);
+        msgReact.remove(user);
+        otherModule.processor.synthCall('bad', msg, (msg)=> {
+            msg.forceMention = msg.author;
+            return msg;
+        });
+        process.answer({msg, author: user}, replyRender);
+    }
+}, otherModule));
 
 otherModule.addCommand(new Command({
     name: 'avatar',

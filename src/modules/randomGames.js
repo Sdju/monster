@@ -32,13 +32,12 @@ function createForm({message, val, title}) {
     const content = message.content;
     const pos = content.indexOf(' ');
     let txt = (pos === -1)? '' : content.slice(content.indexOf(' '));
-    let name = message.channel.members.get(message.author.id).displayName;
     return {
         color: 3447003,
         title: `:game_die: ${title}`,
         fields: [{
                 name: `**:question:  Вопрос**:`,
-                value: `**${name}** : ${txt}`
+                value: `**${message.author}** : ${txt}`
             }, {
                 name: `**:exclamation: Результат**:`,
                 value: `${val}`,

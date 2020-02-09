@@ -23,7 +23,7 @@ userModule.addCommand(new Command({
     async handler() {
         const mention = await this.getMember();
         const user = await this.module.getUser(((mention === void 0)
-            ? this.message.author
+            ? this.message.author.id
             : mention.user).id);
         const form = await this.answer({exp: user.exp});
         setTimeout(()=> {

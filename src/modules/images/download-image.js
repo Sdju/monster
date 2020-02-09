@@ -12,7 +12,7 @@ module.exports = function(uri, filename){
             console.log('content-type:', res.headers['content-type']);
             console.log('content-length:', res.headers['content-length']);
 
-            if ((res.headers['content-type'].split('/')[0] !== 'image') || (+res.headers['content-length'] > 3145728))
+            if ((res.headers['content-type'].split('/')[0] !== 'image') || (+res.headers['content-length'] > 8 * 1024 * 1024 * 8))
                 reject(new Error('Wrong HTTP params'));
 
             request(uri).pipe(fs.createWriteStream(filename)).on('close', resolve);
