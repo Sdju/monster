@@ -131,8 +131,13 @@ otherModule.addCommand(new Command({
     },
     async handler() {
         let text = this.message.text;
+        if (this.message.author.id === '346366231181262848') {
+            text = '<@!346366231181262848> себе это, блят, скажи'
+        } else {
+            this.message.delete();
+        }
         console.log(text);
-        this.message.delete();
+
         this.answer({text});
     },
 }));

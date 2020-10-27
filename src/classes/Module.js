@@ -33,8 +33,7 @@ class Module {
 
     messageHook(message) {
         this.hookProcessor.emit('message', message).then(()=> {
-            if (message.content.startsWith(this.prefix)) {
-
+             if (message.content.startsWith(this.prefix)) {
                 const curCmdName = message.content.slice(this.prefix.length).split(' ')[0].toLowerCase();
                 if (curCmdName in this.commandMap) {
                     message.text = message.content.slice(this.prefix.length + curCmdName.length).trim();

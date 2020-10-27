@@ -159,7 +159,7 @@ actionCommandGenerator([
         aliases: ['танeц'],
         desc: '',
         tag: 'dance',
-        self: '%author% танцует <a:gif2Sway:406043092525907978> <a:gif2B:406042995633160193> ',
+        self: '%author% зажигает <a:gif2Sway:406043092525907978> <a:gif2B:406042995633160193> ',
         target: '%target% зажигает с %author%, вах красавцы  <a:gif2Sway:406043092525907978> <a:gif2B:406042995633160193>'
     },
     {
@@ -177,6 +177,14 @@ actionCommandGenerator([
         tag: 'bye',
         self: '%author% прощается со всеми',
         target: ' %author% прощается с %target%'
+    },
+    {
+        name: 'jojo',
+        aliases: ['жожо', 'жожи'],
+        desc: '',
+        tag: 'jojo',
+        self: 'всем жожи!',
+        target: ' %author% жожится с %target%'
     },
     {
         name: 'disgust',

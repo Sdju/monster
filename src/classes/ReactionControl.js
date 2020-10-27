@@ -4,7 +4,7 @@ class ReactionControl {
                 message,
                 timeout,
                 reactions = [],
-                filter = ()=>true,
+                filter = ()=> true,
                 autodelete = false,
             }) {
         this.reactions = new Map(reactions);

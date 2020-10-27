@@ -1,4 +1,5 @@
 const chalk = require('chalk');
+const { printTable } = require('console-table-printer');
 require('./configs');
 const systemModule = require('./modules/system');
 const randomGamesModule = require('./modules/randomGames');
@@ -6,6 +7,7 @@ const gifsModule = require('./modules/gifs');
 const otherModule = require('./modules/other');
 const imagesModule = require('./modules/images');
 const userModule = require('./modules/user');
+const internalModule = require('./modules/internal');
 
 const Processor = require('./classes/Processor');
 const Hook = require('./classes/Hook');
@@ -13,12 +15,15 @@ const Hook = require('./classes/Hook');
 const { NoOrm } = require('@zede/no-orm');
 
 const bot = new Processor();
-bot.addModule(systemModule);
-bot.addModule(randomGamesModule);
-bot.addModule(gifsModule);
-bot.addModule(otherModule);
-bot.addModule(imagesModule);
-bot.addModule(userModule);
+bot.addModules([
+    systemModule,
+    randomGamesModule,
+    gifsModule,
+    otherModule,
+    imagesModule,
+    userModule,
+    internalModule,
+]);
 
 bot.hookProcessor.activateHook(new Hook('message', message => {
     if (message.content.toLowerCase() === 'w') {
@@ -40,8 +45,10 @@ bot.activate().then(async ()=> {
     };
     await NoOrm.connect(dbConfigs);
 
-    for (const guild of bot.client.guilds.values()) {
-        console.log(chalk.greenBright(guild.name) + chalk.yellowBright(' (' + guild.memberCount + ')'));
-    }
+    const table = [...bot.client.guilds.values()]
+        .map(guild => [guild.memberCount, guild.name])
+        .sort(([lhs], [rhs])=> lhs - rhs)
+        .map(([members, guild]) => ({guild: chalk.greenBright(guild), members: chalk.yellowBright(members)}));
+    printTable(table);
     console.log('Activated');
 });

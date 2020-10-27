@@ -1,9 +1,11 @@
+const Emitter = require('events')
 const Discord = require('discord.js');
 
 const Hook = require('./Hook');
 
-class Processor {
+class Processor extends Emitter {
     constructor() {
+        super()
         this.hookProcessor = Hook.createHookProcessor();
         this.client = new Discord.Client();
         this.modules = [];
@@ -50,6 +52,10 @@ class Processor {
 
     addModule(module) {
         this.modules.push(module);
+    }
+
+    addModules(modules) {
+        this.modules.push(...modules)
     }
 }
 

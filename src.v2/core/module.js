@@ -1,0 +1,4 @@
+class Module {
+    constructor(params) {
+    }
+}

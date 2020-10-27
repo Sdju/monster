@@ -57,16 +57,13 @@ randomGamesModule.addCommand(new Command({
         answer({self, author, user}) {
             let msg = '';
             if (self) {
-                msg = `${author.username} смотрит на свой член и видит: \n`
+                msg = `${author} смотрит на свой член и видит: \n`
             } else {
-                msg = `${author.username} интересуется размером члена ${user.username} и вот результат: \n`
+                msg = `${author} интересуется размером члена ${user} и вот результат: \n`
             }
             const dickSize = getDickSize(user.id);
-            let dickWidth = Array(user.id.slice(2) % 3).fill('*').join('');
-            if (dickSize > 1 )
-                msg += `${dickWidth}8${Array(Math.round(dickSize)).fill('=').join('')}>${dickWidth}\n(${dickSize} см)`;
-            else
-                msg += `:${(dickWidth === 0)? 'wilted_' : ''}rose:\n(${dickSize} см)`;
+
+            msg += dickToString(dickSize, user)
             return {
                 color: 3447003,
                 description: msg
@@ -169,6 +166,24 @@ randomGamesModule.addCommand(new Command({
 }));
 
 randomGamesModule.addCommand(new Command({
+    name: 'random',
+    meta: {
+        help: {
+            description: 'Выводит случайного пользователя',
+            sample: 'roll [max]'
+        },
+    },
+    forms: {
+        answer: createForm,
+    },
+    async handler(message) {
+        const members = [...message.channel.members.values()].filter(memeber => !memeber.user.bot)
+        const val = Math.floor(Math.random() * members.length);
+        await this.answer({message, val: members[val], title: 'Случайный пользователь'});
+    }
+}));
+
+randomGamesModule.addCommand(new Command({
     name: 'pick',
     aliases: ['выбери', 'choose'],
     meta: {
@@ -189,6 +204,25 @@ randomGamesModule.addCommand(new Command({
     }
 }));
 
+function comp(text, id) {
+    return parseInt(md5(text + id).slice(0, 3), 16) % 101;
+}
+function compToEmoji(val) {
+    if (val === 100)
+        return ':gem:';
+    else if (val > 80)
+        return ':heart:';
+    else if (val > 50)
+        return ':blush:';
+    else if (val > 30)
+        return ':expressionless:';
+    else if (val > 10)
+        return ':angry:';
+    else if (val !== 0)
+        return ':triumph:';
+    else
+        return ':rage:';
+}
 randomGamesModule.addCommand(new Command({
     name: 'compatibility',
     aliases: ['совместимость', 'comp'],
@@ -207,23 +241,66 @@ randomGamesModule.addCommand(new Command({
             return;
         }
         message.delete();
-        let res = parseInt(md5(this.message.text + message.author.id).slice(0, 3), 16) % 101;
-        let emoji = '';
-        if (res === 100)
-            emoji = ':gem:';
-        else if (res > 80)
-            emoji = ':heart:';
-        else if (res > 50)
-            emoji = ':blush:';
-        else if (res > 30)
-            emoji = ':expressionless:';
-        else if (res > 10)
-            emoji = ':angry:';
-        else if (res !== 0)
-            emoji = ':triumph:';
-        else
-            emoji = ':rage:';
-        this.answer({message, val: `**${res}%** ${emoji}`, title: 'Compatibility'});
+        let res = comp(this.message.text, message.author.id)
+
+        this.answer({message, val: `**${res}%** ${compToEmoji(res)}`, title: 'Compatibility'});
+    }
+}));
+
+randomGamesModule.addCommand(new Command({
+    name: 'pair',
+    aliases: ['пара'],
+    meta: {
+        help: {
+            description: 'ищет вам парочку в этом канале',
+            sample: 'pair'
+        },
+    },
+    forms: {
+        answer({members}) {
+            let msg = '';
+            let id = 0;
+            for (const member of members) {
+                msg += `${++id}. ${member.member} (${member.comp1}${compToEmoji(member.comp1)} / ${member.comp2}${compToEmoji(member.comp2)})\n`
+            }
+            return {
+                color: 3447003,
+                title: `:heart: Варианты для твоей идеальной пары:`,
+                description: msg
+            };
+        },
+    },
+    flags: {
+        i: ['flag', false],
+        c: ['int', 5],
+    },
+    async handler(message) {
+        let members = [];
+        for (let [,member] of message.channel.members) {
+            console.log(member.toString())
+            const comp1 = comp(member.toString(), this.message.author.id);
+            const comp2 = comp(this.message.author.toString(), member.id)
+            members.push({
+                sum: (100 - comp1)**2 + (100 - comp2)**2,
+                comp1,
+                comp2,
+                member,
+            })
+        }
+        members.sort((lhs, rhs)=> {
+            if (lhs.sum === rhs.sum) {
+                return 0;
+            } else if (lhs.sum > rhs.sum) {
+                return -1;
+            }
+            return 1;
+        })
+        if (this.flags.i) {
+            members = members.slice(0, this.flags.c)
+        } else {
+            members = members.slice(-this.flags.c).reverse()
+        }
+        this.answer({members});
     }
 }));
 

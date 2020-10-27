@@ -29,7 +29,6 @@ userModule.addCommand(new Command({
         setTimeout(()=> {
             form.update({exp: 500})
         }, 3000)
-
     },
 }));
 
