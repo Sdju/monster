@@ -1,9 +1,9 @@
-const Module = require('../../helpers/DbModule');
+const Module = require('../../classes/module');
 
 class UserModule extends Module {
     async beforeCommand(message) {
-        const user = message.userModel;
-        await user.addExp();
+        // const user = message.userModel;
+        // await user.addExp();
     }
 }
 

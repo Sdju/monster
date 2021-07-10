@@ -1,4 +1,4 @@
-const Module = require('../helpers/DbModule');
+const Module = require('../classes/module');
 const Command = require('../classes/Command');
 const ReactionControl = require('../classes/ReactionControl');
 const Form = require('../classes/Form');
@@ -288,12 +288,12 @@ systemModule.addCommand(new Command({
                     },
                     {
                         name: 'Серверов',
-                        value: client.guilds.size,
+                        value: client.guilds.cache.size,
                         inline: true,
                     },
                     {
                         name: 'Пользователей',
-                        value: client.users.size,
+                        value: client.users.cache.size,
                         inline: true,
                     }
                 ],

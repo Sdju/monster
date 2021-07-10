@@ -17,7 +17,7 @@ module.exports = function(message) {
             name: arr[arr.length - 1].split('?')[0]
         }
     } else if (message.mentions.users.size > 0) {
-        const res = message.mentions.users.first().avatarURL;
+        const res = message.mentions.users.first().avatarURL();
         const arr = res.split('/');
         return {
             url: res,

@@ -143,7 +143,7 @@ class Process {
         return form;
     }
 
-    async error(props, render = this.command.forms.error || this.module.errorRender) {
+    async error(props, render = this.command.forms?.error || this.module.errorRender) {
         return this.answer(props, render);
     }
 }

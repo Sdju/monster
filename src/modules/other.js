@@ -56,7 +56,7 @@ otherModule.hookProcessor.activateHook(new Hook('reactionAdd', function(msgReact
 
 otherModule.addCommand(new Command({
     name: 'avatar',
-    aliases: ['ava'],
+    aliases: ['ava', 'ава'],
     meta: {
         help: {
             description: 'выводит автар указанного пользователя или свой собственный если юзер не указан',
@@ -69,7 +69,7 @@ otherModule.addCommand(new Command({
                 color: 3447003,
                 title: user.tag,
                 image: {
-                    url: user.avatarURL,
+                    url: user.avatarURL().replace('.webp', '.png') + '?size=1024',
                     height: 200,
                     width: 200
                 },

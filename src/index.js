@@ -16,13 +16,13 @@ const { NoOrm } = require('@zede/no-orm');
 
 const bot = new Processor();
 bot.addModules([
-    systemModule,
     randomGamesModule,
+    systemModule,
     gifsModule,
     otherModule,
     imagesModule,
     userModule,
-    internalModule,
+    //internalModule,
 ]);
 
 bot.hookProcessor.activateHook(new Hook('message', message => {
@@ -43,9 +43,13 @@ bot.activate().then(async ()=> {
         port: process.env.DB_PORT,
         authSource: process.env.DB_AUTHSOURCE,
     };
-    await NoOrm.connect(dbConfigs);
 
-    const table = [...bot.client.guilds.values()]
+
+    await new Promise(res => setTimeout(res, 1500))
+    const guilds = [...bot.client.guilds.cache.values()]
+    await NoOrm.connect(dbConfigs)
+
+    const table = guilds
         .map(guild => [guild.memberCount, guild.name])
         .sort(([lhs], [rhs])=> lhs - rhs)
         .map(([members, guild]) => ({guild: chalk.greenBright(guild), members: chalk.yellowBright(members)}));

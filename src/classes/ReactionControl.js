@@ -31,14 +31,16 @@ class ReactionControl {
         // КОСТЫЛЬ ПРИДУМАТЬ РЕШЕНИЕ
         await new Promise(res=> setTimeout(res, 300));
 
-        this.collector = this.message.createReactionCollector(this.filter.bind(this), {time: this.timeout});
+        this.collector = this.message.createReactionCollector(() => true);
         this.collector.on('collect', reaction=> {
             this.reactions.get(reaction.emoji.name)(reaction);
             if (this.autodelete) {
                 reaction.remove(reaction.user);
             }
         });
-        this.collector.on('end', () => this.message.clearReactions());
+        this.collector.on('end', () => {
+            this.message.reactions.removeAll()
+        });
     }
 
     stop() {

@@ -71,11 +71,11 @@ class ImageProcess extends Process {
                             console.log(err);
                             rej(err);
                         }
-                        self.message.client.channels.get(uploadChannelId).send({
-                            file: {
+                        self.message.client.channels.cache.get(uploadChannelId).send({
+                            files: [{
                                 attachment: self.editFilename,
                                 name: self.nameOut
-                            }
+                            }]
                         }).then((msg)=> {
                             res({
                                 url: msg.attachments.first().url,

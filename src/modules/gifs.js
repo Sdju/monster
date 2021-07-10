@@ -226,6 +226,14 @@ actionCommandGenerator([
         self: '%author% смотрит на себя, интересно, что же он(а) там увидел(а)? :thinking:',
         target: '%author% посмотрел(а) на %target%, интересно, что же он(а) там увидел(а)? :thinking:'
     },
+    {
+        name: 'wow',
+        aliases: ['aww', 'ауф'],
+        desc: '',
+        tag: 'wow',
+        self: '%author% в восхищении',
+        target: '%author% восхищен %target%'
+    },
 ]);
 
 module.exports = gifsModule;

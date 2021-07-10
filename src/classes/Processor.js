@@ -7,7 +7,9 @@ class Processor extends Emitter {
     constructor() {
         super()
         this.hookProcessor = Hook.createHookProcessor();
-        this.client = new Discord.Client();
+        this.client = new Discord.Client({
+            partials: ['USER', 'GUILD_MEMBER', 'MESSAGE', 'CHANNEL', 'REACTION'],
+        });
         this.modules = [];
     }
 
